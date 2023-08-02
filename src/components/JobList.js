@@ -1,8 +1,6 @@
-import {
-  jobListSearchEl,
-  jobDetailsContentEl,
-  spinnerJobDetailsEl,
-} from "../common.js";
+import { jobListSearchEl, jobDetailsContentEl } from "../common.js";
+
+import renderSpinner from "./Spinner.js";
 
 const handleClick = (e) => {
   e.preventDefault();
@@ -17,7 +15,7 @@ const handleClick = (e) => {
 
   jobDetailsContentEl.innerHTML = "";
 
-  spinnerJobDetailsEl.classList.add("spinner--visible");
+  renderSpinner("job-details");
 
   const id = jobItemEl.children[0].getAttribute("href");
 
@@ -32,7 +30,7 @@ const handleClick = (e) => {
     })
     .then((data) => {
       const { jobItem } = data;
-      spinnerJobDetailsEl.classList.remove("spinner--visible");
+      renderSpinner("job-details");
 
       const jobDetailsHTML = `
         <img src="${

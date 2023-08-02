@@ -1,12 +1,12 @@
 import {
   searchInputEl,
   searchFormEl,
-  spinnerSearchEl,
   jobListSearchEl,
   numberEl,
-  errorTextEl,
-  errorEl,
 } from "../common.js";
+
+import renderError from "./Error.js";
+import renderSpinner from "./Spinner.js";
 
 const handleSubmit = (e) => {
   e.preventDefault();
@@ -15,21 +15,15 @@ const handleSubmit = (e) => {
   const forbiddenPattern = /[0-9]/;
   const patternMatch = forbiddenPattern.test(searchText);
   if (patternMatch) {
-    errorTextEl.textContent =
-      "Your search may not contain numbers or special characters";
-
-    errorEl.classList.add("error--visible");
-    setTimeout(() => {
-      errorEl.classList.remove("error--visible");
-      return;
-    }, 3500);
+    renderError("Your search may not contain numbers");
+    return;
   }
 
   searchInputEl.value = "";
-  // searchInputEl.blur();
-  searchInputEl.focus();
+  searchInputEl.blur();
   jobListSearchEl.innerHTML = "";
-  spinnerSearchEl.classList.add("spinner--visible");
+
+  renderSpinner("search");
 
   fetch(`https://bytegrad.com/course-assets/js/2/api/jobs?search=${searchText}`)
     .then((res) => {
@@ -41,7 +35,7 @@ const handleSubmit = (e) => {
     })
     .then((data) => {
       const { jobItems } = data;
-      spinnerSearchEl.classList.remove("spinner--visible");
+      renderSpinner("search");
       numberEl.textContent = jobItems.length;
 
       jobItems.slice(0, 7).forEach((jobItem) => {
