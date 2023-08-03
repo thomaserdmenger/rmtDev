@@ -34,7 +34,7 @@ const renderJobList = (jobItems) => {
   });
 };
 
-const handleClick = (e) => {
+const handleClick = async (e) => {
   e.preventDefault();
   const jobItemEl = e.target.closest(".job-item");
 
@@ -51,25 +51,43 @@ const handleClick = (e) => {
 
   const id = jobItemEl.children[0].getAttribute("href");
 
-  fetch(`${BASE_API_URL}/jobs/${id}`)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(
-          "Resource issue (e.g resource does not exist) or server issue"
-        );
-      }
+  try {
+    const response = await fetch(`${BASE_API_URL}/jobs/${id}`);
+    const data = await response.json();
 
-      return response.json();
-    })
-    .then((data) => {
-      const { jobItem } = data;
-      renderSpinner("job-details");
-      renderJobDetails(jobItem);
-    })
-    .catch((error) => {
-      renderSpinner("job-details");
-      renderError(error.message);
-    });
+    if (!response.ok) {
+      throw new Error(
+        "Resource issue (e.g resource does not exist) or server issue"
+      );
+    }
+
+    const { jobItem } = data;
+    renderSpinner("job-details");
+    renderJobDetails(jobItem);
+  } catch (error) {
+    renderSpinner("job-details");
+    renderError(error.message);
+  }
+
+  // fetch(`${BASE_API_URL}/jobs/${id}`)
+  //   .then((response) => {
+  //     if (!response.ok) {
+  //       throw new Error(
+  //         "Resource issue (e.g resource does not exist) or server issue"
+  //       );
+  //     }
+
+  //     return response.json();
+  //   })
+  //   .then((data) => {
+  //     const { jobItem } = data;
+  //     renderSpinner("job-details");
+  //     renderJobDetails(jobItem);
+  //   })
+  //   .catch((error) => {
+  //     renderSpinner("job-details");
+  //     renderError(error.message);
+  //   });
 };
 
 jobListSearchEl.addEventListener("click", handleClick);
