@@ -6,6 +6,7 @@ import {
 
 import renderSpinner from "./Spinner.js";
 import renderJobDetails from "./JobDetails.js";
+import renderError from "./Error.js";
 
 const renderJobList = (jobItems) => {
   jobItems.slice(0, 7).forEach((jobItem) => {
@@ -53,8 +54,9 @@ const handleClick = (e) => {
   fetch(`${BASE_API_URL}/jobs/${id}`)
     .then((response) => {
       if (!response.ok) {
-        console.log("Something went wrong");
-        return;
+        throw new Error(
+          "Resource issue (e.g resource does not exist) or server issue"
+        );
       }
 
       return response.json();
@@ -64,7 +66,10 @@ const handleClick = (e) => {
       renderSpinner("job-details");
       renderJobDetails(jobItem);
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      renderSpinner("job-details");
+      renderError(error.message);
+    });
 };
 
 jobListSearchEl.addEventListener("click", handleClick);
