@@ -2,6 +2,7 @@ import {
   jobListSearchEl,
   jobDetailsContentEl,
   BASE_API_URL,
+  getData,
 } from "../common.js";
 
 import renderSpinner from "./Spinner.js";
@@ -52,14 +53,7 @@ const handleClick = async (e) => {
   const id = jobItemEl.children[0].getAttribute("href");
 
   try {
-    const response = await fetch(`${BASE_API_URL}/jobs/${id}`);
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(
-        "Resource issue (e.g resource does not exist) or server issue"
-      );
-    }
+    const data = await getData(`${BASE_API_URL}/jobs/${id}`);
 
     const { jobItem } = data;
     renderSpinner("job-details");

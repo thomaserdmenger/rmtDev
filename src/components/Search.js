@@ -4,6 +4,7 @@ import {
   jobListSearchEl,
   numberEl,
   BASE_API_URL,
+  getData,
 } from "../common.js";
 
 import renderError from "./Error.js";
@@ -17,7 +18,7 @@ const handleSubmit = async (e) => {
   const forbiddenPattern = /[0-9]/;
   const patternMatch = forbiddenPattern.test(searchText);
   if (patternMatch) {
-    renderError("Your search may not contain numbers");
+    renderError(data.description);
     return;
   }
 
@@ -29,15 +30,7 @@ const handleSubmit = async (e) => {
 
   // Asynchronous JS with async/await & try/catch
   try {
-    const response = await fetch(`${BASE_API_URL}/jobs?search=${searchText}`);
-    const data = await response.json();
-
-    if (!response.ok) {
-      // 4xx, 5xx status code
-      throw new Error(
-        "Resource issue (e.g resource does not exist) or server issue"
-      );
-    }
+    const data = await getData(`${BASE_API_URL}/jobs?search=${searchText}`);
 
     const { jobItems } = data;
     renderSpinner("search");
