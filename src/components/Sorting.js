@@ -6,11 +6,15 @@ import {
 } from "../common.js";
 
 import renderJobList from "./JobList.js";
+import renderPaginationButtons from "./Pagination.js";
 
 const handleClick = (e) => {
   const clickedButtonEl = e.target.closest(".sorting__button");
 
   if (!clickedButtonEl) return;
+
+  // update state (reset to page 1)
+  state.currentPage = 1;
 
   const recent = clickedButtonEl.className.includes("--recent") ? true : false;
 
@@ -27,6 +31,9 @@ const handleClick = (e) => {
   } else {
     state.searchJobItems.sort((a, b) => b.relevanceScore - a.relevanceScore);
   }
+
+  // Reset pagination buttons
+  renderPaginationButtons();
 
   renderJobList();
 };
