@@ -6,8 +6,9 @@ export const RESULTS_PER_PAGE = 7;
 // STATE
 
 export const state = {
-  searchJobItems: [],
+  activeJobItem: {},
   currentPage: 1,
+  searchJobItems: [],
 };
 
 // SELECTORS

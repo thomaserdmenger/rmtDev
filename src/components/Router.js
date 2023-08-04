@@ -1,6 +1,12 @@
-import { BASE_API_URL, jobDetailsContentEl, getData } from "../common.js";
+import {
+  BASE_API_URL,
+  jobDetailsContentEl,
+  getData,
+  state,
+} from "../common.js";
 import renderSpinner from "./Spinner.js";
 import renderJobDetails from "./JobDetails.js";
+import renderError from "./Error.js";
 
 const loadHashChangeHandler = async () => {
   // get id from url
@@ -19,6 +25,9 @@ const loadHashChangeHandler = async () => {
 
       // extract job item
       const { jobItem } = data;
+
+      // Update state
+      state.activeJobItem = jobItem;
 
       // remove spinner
       renderSpinner("job-details");
