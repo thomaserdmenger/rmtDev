@@ -23,7 +23,7 @@ const clickHandler = (event) => {
     state.bookmarkJobItems.push(state.activeJobItem);
   }
 
-  // Persist data with local storage
+  // persist data with localstorage
   localStorage.setItem(
     "bookmarkJobItems",
     JSON.stringify(state.bookmarkJobItems)
@@ -33,6 +33,9 @@ const clickHandler = (event) => {
   document
     .querySelector(".job-info__bookmark-icon")
     .classList.toggle("job-info__bookmark-icon--bookmarked");
+
+  // render search job list
+  renderJobList();
 };
 
 const mouseEnterHandler = () => {

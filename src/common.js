@@ -4,12 +4,11 @@ export const DEFAULT_DISPLAY_TIME = 3500;
 export const RESULTS_PER_PAGE = 7;
 
 // STATE
-
 export const state = {
-  activeJobItem: {},
-  bookmarkJobItems: [],
-  currentPage: 1,
   searchJobItems: [],
+  bookmarkJobItems: [],
+  activeJobItem: {},
+  currentPage: 1,
 };
 
 // SELECTORS
@@ -38,6 +37,8 @@ export const paginationNumberNextEl = document.querySelector(
 export const paginationNumberBackEl = document.querySelector(
   ".pagination__number--back"
 );
+export const searchFormEl = document.querySelector(".search");
+export const searchInputEl = document.querySelector(".search__input");
 export const sortingEl = document.querySelector(".sorting");
 export const sortingBtnRelevantEl = document.querySelector(
   ".sorting__button--relevant"
@@ -49,8 +50,6 @@ export const spinnerSearchEl = document.querySelector(".spinner--search");
 export const spinnerJobDetailsEl = document.querySelector(
   ".spinner--job-details"
 );
-export const searchFormEl = document.querySelector(".search");
-export const searchInputEl = document.querySelector(".search__input");
 
 // HELPER / UTILITY FUNCTIONS
 export const getData = async (completeURL) => {
